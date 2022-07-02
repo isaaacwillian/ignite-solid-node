@@ -1,18 +1,12 @@
 import { Router } from "express";
 
-import categoriesRepository from "../repositories/CategoriesRepository";
-import { CreateCategoryService } from "../services/CreateCategoryService";
+import categoriesRepository from "../modules/cars/repositories/CategoriesRepository";
+import { createCategoryController } from "../modules/cars/useCases/createCategory";
 
 const categoriesRoutes = Router();
 
 categoriesRoutes.post("/", (req, res) => {
-  const { name, description } = req.body;
-
-  const createCategoryService = new CreateCategoryService(categoriesRepository);
-
-  createCategoryService.execute({ name, description });
-
-  return res.status(201).send();
+  return createCategoryController.handle(req, res);
 });
 
 categoriesRoutes.get("/", (req, res) => {
